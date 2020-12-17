@@ -1,15 +1,12 @@
 --[예제]
-/*
-사원의 이름(fisrt_name)과 전화번호 입사일 연봉을 출력하세요
-사원의 이름(first_name)과 성(last_name) 급여, 전화번호, 이메일, 입사일을 출력하세요
-    ? 컬럼명이 많을때 표기팁
-*/
+--사원의 이름(fisrt_name)과 전화번호 입사일 연봉을 출력하세요
 select first_name,
        phone_number,
        hire_date,
        salary
 from employees;
 
+--사원의 이름(first_name)과 성(last_name) 급여, 전화번호, 이메일, 입사일을 출력하세요// 컬럼명이 많을때 표기팁
 select first_name,
        last_name,
        salary,
@@ -19,16 +16,14 @@ select first_name,
 from employees;
 
 --[예제]
-/*
-사원의 이름(fisrt_name)과 전화번호 입사일 급여 로 표시되도록 출력하세요
-사원의 사원번호 이름(first_name) 성(last_name) 급여 전화번호 이메일 입사일로 표시되도록 출력하세요
-*/
+--사원의 이름(fisrt_name)과 전화번호 입사일 급여 로 표시되도록 출력하세요
 select first_name as "이름",
        phone_number as "전화번호",
        hire_date as "입사일",
        salary as "급여"
 from employees;
 
+--사원의 사원번호 이름(first_name) 성(last_name) 급여 전화번호 이메일 입사일로 표시되도록 출력하세요
 select first_name as "이름",
        last_name as "성",
        salary as "급여",
@@ -39,10 +34,7 @@ from employees;
 
 
 --[예제]
-/*
-다음을 실행해 보고오류를 분석해 보세요 
-*/
-
+--다음을 실행해 보고오류를 분석해 보세요
 select job_id*12  //글자 *12
 from employees; 
 
@@ -51,7 +43,7 @@ from employees;
 /*
 전체직원의 정보를 다음과 같이 출력하세요
 성명(first_name last_name)
-성과 이름사이에 ? 로 구분 ex) William-Gietz급여연봉(급여*12)연봉2(급여*12+5000)전화번호 */
+성과 이름사이에 ? 로 구분 ex) William-Gietz 급여 연봉(급여*12) 연봉2(급여*12+5000) 전화번호 */
 
 select first_name || '-' || last_name as "성명",
        salary as "급여",
