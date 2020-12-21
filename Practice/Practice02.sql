@@ -21,7 +21,7 @@ from employees;
 /*문제3.
 마지막으로 신입사원이 들어온 날은 언제 입니까? 다음 형식으로 출력해주세요.
 */
-select to_char(max(hire_date),'YYYY"년"MM"월"DD"일"')
+select to_char(max(hire_date),'YYYY"년" MM"월" DD"일"')
 from employees;
 
 /*
@@ -92,8 +92,9 @@ order by max(salary)-min(salary) desc;           --"최고임금-최저임금" d
 출력은 관리자별로 평균급여가 5000이상 중에 평균급여 최소급여 최대급여를 출력합니다.
 평균급여의 내림차순으로 정렬하고 평균급여는 소수점 첫째짜리에서 반올림 하여 출력합니다.
 */
+--답 1)
 select manager_id "관리자",
-       round(avg(salary)) "평균급여",
+       round(avg(salary),0) "평균급여",
        min(salary) "최저임금",
        max(salary) "최고임금"
 from employees
@@ -101,6 +102,18 @@ group by manager_id, hire_date
 having hire_date >= '2005-01-01'
 and avg(salary) >= 5000
 order by round(avg(salary))desc;
+
+--답 2)
+select manager_id "관리자",
+       round(avg(salary),0) "평균급여",
+       min(salary) "최저임금",
+       max(salary) "최고임금"
+from employees
+where hire_date > '05/01/01'
+group by manager_id
+having avg(salary) >= 5000
+order by avg(salary) desc;
+
 
 /*
 문제10
@@ -127,8 +140,8 @@ select  first_name "이름",
         hire_date "입사일",
         case when hire_date < '02/12/31' then '창립멤버'
              when hire_date > '03/01/01' and hire_date <= '03/12/31' then '03년입사'
-             when hire_date <= '04/12/31' then '04년입사'
+             when hire_date > '04/01/01' and hire_date <= '04/12/31' then '04년입사'
              else '상장이후입사' 
-        end as optDate
+        end as optDate, hire_date
 from employees
 order by hire_date asc;
