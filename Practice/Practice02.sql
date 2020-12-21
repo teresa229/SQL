@@ -3,8 +3,9 @@
 /*문제1.
 매니저가 있는 직원은 몇 명입니까? 아래의 결과가 나오도록 쿼리문을 작성하세요
 */
-select count(*) "직원수"
-from employees;
+select count(manager_id) "직원수"
+from employees
+where manager_id is not null;
 
 
 /*문제2. 
@@ -63,7 +64,7 @@ from employees;
 평균임금과 최저임금의 차이가 2000 미만인
 부서(department_id), 평균임금, 최저임금 그리고 (평균임금 – 최저임금)를 (평균임금 – 최저임금)의 내림차순으로 정렬해서 출력하세요.
 */
-select department_id "부서",
+select nvl(department_id,0) "부서",
        trunc(avg(salary),0) "평균임금",
        min(salary) "최저임금",
        round(avg(salary)-min(salary)) "평균임금 – 최저임금"
