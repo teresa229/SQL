@@ -314,10 +314,31 @@ from employees emp, jobs job, (select job_id,
                                from employees
                                group by job_id) js
 where emp.job_id = job.job_id
-and emp.salary = js.sum
+--and emp.salary = js.sum
 group by job_title,salary
 order by salary desc;
 
+--답 3: step 1 업무별 salary 총합
+select  job_id,
+        sum(salary) salary
+from employees
+group by job_id;
+
+--답 3: step 2 job_title 조회
+select  job_title "업무명",
+        job_id "업무아이디"
+from jobs;
+
+--답 3: step 3
+select  job.job_title "업무명",
+        job.job_id "업무아이디",
+        emp.salary "연봉총합"
+from jobs job, (select  job_id,
+                        sum(salary) salary
+                from employees
+                group by job_id) emp
+where job.job_id = emp.job_id
+order by emp.salary desc;
 
 
 /*
