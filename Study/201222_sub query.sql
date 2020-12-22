@@ -70,14 +70,14 @@ where salary < (select avg(salary)
 --예제)
 --부서번호가 110인 직원의 급여와 같은
 --사번, 이름, 급여 출력
---1. 부서번호 110인 직원의 이름, 급여,...리스트
+--step 1. 부서번호 110인 직원의 이름, 급여,...리스트
 select first_name,
        salary,
        department_id
 from employees
 where department_id = 110;
 
---2. 전체직원 중 급여가 12008, 8300인 직원
+--step 2. 전체직원 중 급여가 12008, 8300인 직원
 select employee_id,
        first_name,
        salary
@@ -94,6 +94,25 @@ where salary in (select salary
                  from employees
                  where department_id = 110);  --여러개 나올지 한개가 나올지 '연산자'를 결정해 주어야 한다.
 
+--step.2-1 >> JOIN(SubQuery ANY)
+select employee_id,
+       first_name,
+       salary
+from employees
+where salary >any (select salary  -- OR연산자 >> salary > 8300
+                   from employees
+                   where department_id = 110);
+
+--step.2-2 >> JOIN(SubQuery ALL)                  
+select employee_id,
+       first_name,
+       salary
+from employees
+where salary >all (select salary  -- AND연산자 >> salary > 12008
+                   from employees
+                   where department_id = 110);                  
+
+-- TABLE JOIN
 --예제)
 --각 부서별로 최고급여를 받는 사원을 출력하세요
 --부서별 분리,
