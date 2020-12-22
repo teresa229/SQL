@@ -43,27 +43,23 @@ select avg(salary),
 from employees
 group by department_id;
 
---평균급여 이상
+--평균급여 이상(평균급여 6461.83...)
 select employee_id,
        first_name,
        salary
-       --avg(salary),
-       --max(salary)
 from employees
-where salary >any (select avg(salary)
-                   from employees);
+where salary >= (select avg(salary)
+                 from employees);
 
---최대급여 이하
+--최대급여 이하(최대급여 24000)
 select employee_id,
        first_name,
        salary
-       --avg(salary),
-       --max(salary)
 from employees
-where salary <any (select max(salary)
+where salary <any (select max(salary)     --<= 값이 다르네;;
                    from employees);
                    
---합치기:  salary, avg(salary), max(salary) 같게 나오지;;      
+--답 1:  salary, avg(salary), max(salary) 같게 나오지;;      
 select employee_id,
        first_name,
        salary,
@@ -76,6 +72,29 @@ where salary >= (select avg(salary)
                      from employees)
 group by employee_id, first_name, salary
 order by salary asc;                    
+
+--답2- step 1 고민:
+select employee_id,
+       first_name
+from employees
+where salary >= (select avg(salary)
+                 from employees)
+      and salary <= (select max(salary)
+                     from employees);  51개
+--답2- step 2 고민:                     
+select employee_id "직원번호",
+       first_name "이름",
+       salary "급여",
+       avg(salary)"평균급여",
+       max(salary)"최대급여"
+from employees
+group by employee_id, first_name, salary
+having  salary >= (select avg(salary)
+                   from employees)
+        and salary <= (select max(salary)
+                       from employees)
+order by salary desc;
+
 
 
 
@@ -92,7 +111,7 @@ select first_name,
        department_id --90
 from employees;
 
--- 답
+-- 답 1:
 select lo.location_id,
        lo.street_address,
        lo.postal_code,
@@ -125,6 +144,48 @@ where emp.employee_id = de.manager_id
       and emp.last_name in (select emp.last_name
                         from employees
                         where emp.last_name = 'King'); 
+
+-- 답 2 step1: location_id 1700
+select emp.first_name,
+       emp.last_name,
+       emp.department_id,
+       de.department_name,
+       de.location_id
+from employees emp, departments de
+where emp.department_id = de.department_id
+      and emp.first_name = 'Steven'
+      and emp.last_name = 'King' ;
+
+-- 답 2 step2:
+select location_id,
+       street_address,
+       postal_code,
+       city,
+       state_province,
+       country_id
+from locations
+where location_id = (select location_id
+                     from employee emp, department de
+                     where emp.department_id = de.department_id
+                     and emp.first_name = 'Steven'
+                     and emp.last_name = 'King');
+                     
+select loc.location_id,
+       loc.street_address,
+       loc.postal_code,
+       loc.city,
+       loc.state_province,
+       loc.country_id
+from locations loc,(select emp.first_name,
+                           emp.last_name,
+                           emp.department_id,
+                           de.department_name,
+                           de.location_id
+                    from employees emp, departments de
+                    where emp.department_id = de.department_id
+                    and emp.first_name = 'Steven'
+                    and emp.last_name = 'King') empe
+where loc.location_id = empe.location_id ;
 
 
 
