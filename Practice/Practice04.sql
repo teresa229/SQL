@@ -1,4 +1,4 @@
-/*Practice03*/ --서브쿼리(SUBQUERY) SQL 문제입니다.
+/*Practice04*/ --서브쿼리(SUBQUERY) SQL 문제입니다.
 
 /*
 문제1.
@@ -387,7 +387,7 @@ order by department_id asc;
 --입사일이 11번째에서 15번째의 직원
 --사번, 이름, 급여, 입사일을 입사일 순서로 출력
 
---입사일이 11번째에서 15번째의 직원 확인
+--1)입사일이 11번째에서 15번째의 직원 확인
 select employee_id "직원번호",
        first_name "이름",
        salary "급여",
@@ -395,14 +395,40 @@ select employee_id "직원번호",
 from employees
 order by hire_date asc;
 
+--2)중간 출력
+select rownum rnum,
+       employee_id,
+       first_name,
+       salary,
+       hire_date
+from (select employee_id,
+             first_name,
+             salary,
+             hire_date
+      from employees
+      order by hire_date asc) o;
+    
 --답 출력
-select employee_id "직원번호",
-       first_name "이름",
-       salary "급여",
-       hire_date "입사일"
-from employees
-where hire_date > '03/05/18'
-and hire_date < '04/01/28';
+select ro.rnum,
+       ro.employee_id,
+       ro.first_name,
+       ro.salary,
+       ro.hire_date
+from (select rownum rnum,
+             employee_id,
+             first_name,
+             salary,
+             hire_date
+       from (select employee_id,
+                    first_name,
+                    salary,
+                    hire_date
+             from employees
+             order by hire_date asc) o
+       )ro
+where rnum >= 11
+and rnum <= 15;
+
 
 
 

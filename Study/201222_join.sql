@@ -6,5 +6,5 @@ inner join ~ on
 
 outer join --> 기준이 되는 쪽은 포함 비교되는 쪽은 null로 표시
 left outer join ~ on
-right outer join ~ on
+right outer join ~ on -> left outer join~on
 full outer join ~ on
