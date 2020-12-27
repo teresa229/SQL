@@ -3,18 +3,19 @@
 drop table book; --예전 작업 삭제
 drop table author; --예전 작업 삭제
 
-drop sequence seq_author_id;
-drop sequence seq_book_id;
+drop sequence seq_author_id; --예전 시퀀스 삭제
+drop sequence seq_book_id; --예전 시퀀스 삭제
+
 --1) author 테이블 생성
 --2) author 시퀀스 생성
 
---3)book 테이블 생성
---4)book 시퀀스 생성
+--3) book 테이블 생성
+--4) book 시퀀스 생성
 
---5)author 데이터 insert
---6)book 데이터 insert
+--5) author 데이터 insert
+--6) book 데이터 insert
 
---7)select 문
+--7) select 문
 /***************************************************/
 
 --1) author 테이블 생성
@@ -26,7 +27,7 @@ create table author(
 ); 
 
 
---2)author 시퀀스 생성 : 이미 존재한다고 뜬다;;
+--2)author 시퀀스 생성
 create sequence seq_author_id 
 increment by 1
 start with 1;
@@ -103,3 +104,21 @@ values(seq_book_id.nextval,'26년','재미주의', '12-02-04',5);
 --현상황 확인
 select *
 from book;
+
+commit;
+
+
+--강풀의 author_desc 정보를 ‘서울특별시’ 로 변경해 보세요
+update author
+set author_name = '강풀',
+author_desc = '서울특별시'
+where author_id = 5;
+
+select *
+from author;
+
+--author 테이블에서 기안84 데이터를 삭제해 보세요
+delete from author
+where author_id = 4; --ORA-02292: integrity constraint (WEBDB.BOOK_FK) violated - child record found
+
+commit;
