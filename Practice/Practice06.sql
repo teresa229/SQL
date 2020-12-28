@@ -51,6 +51,7 @@ create sequence seq_book_id
 increment by 1
 start with 1;
 
+
 --5)author 데이터 insert
 insert into author
 values(seq_author_id.nextval,'이문열', '경북 영양');
@@ -107,8 +108,9 @@ from book;
 
 commit;
 
-
+---------------------------------------------------
 --강풀의 author_desc 정보를 ‘서울특별시’ 로 변경해 보세요
+---------------------------------------------------
 update author
 set author_name = '강풀',
 author_desc = '서울특별시'
@@ -117,8 +119,59 @@ where author_id = 5;
 select *
 from author;
 
---author 테이블에서 기안84 데이터를 삭제해 보세요
+commit; --dml에서 select를 제외하고는 적용해주자!
+
+---------------------------------------------------
+책 삭제하기 : 작가부터 삭제한다.
+---------------------------------------------------
+--기안 84작가 데이터 삭제
 delete from author
 where author_id = 4; --ORA-02292: integrity constraint (WEBDB.BOOK_FK) violated - child record found
 
+--기안 84책(패션왕)을 먼저 삭제해야 함
+delete from book
+where book_id = 24;
+
+--기안 84작가 삭제
+delete from author
+where author_id = 4;
+
 commit;
+
+---------------------------------------------------
+--전체 리스트 보기
+---------------------------------------------------
+select b.book_id,
+       b.title,
+       b.pubs,
+       b.pub_date,
+       a.author_id,
+       a.author_name,
+       a.author_desc
+from book b, author a
+where b.author_id = a.author_id;
+
+--------------------------------
+select *
+from author;
+
+--------------------------------
+수업중에 이클립스로 추가함.
+
+--실행 전 문제없는지 test 1
+update author
+set author_name = '하이미디어',
+author_desc = '서울시 강남구'
+where author_id = 7;
+
+rollback;
+
+--실행 전 문제없는지 test 2
+delete from author
+where author_id = 7;
+
+--실행 전 문제없는지 test 3
+select author_id,
+       author_name,
+       author_desc
+from author;
