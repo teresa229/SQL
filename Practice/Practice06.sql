@@ -154,7 +154,6 @@ where b.author_id = a.author_id;
 --------------------------------
 select *
 from author;
-
 --------------------------------
 수업중에 이클립스로 추가함.
 
@@ -175,3 +174,21 @@ select author_id,
        author_name,
        author_desc
 from author;
+
+--------------------------------
+select *
+from book;
+--------------------------------
+--과제 book 
+--------------------------------
+--실행 전 문제없는지 test 1 : insert
+insert into book
+values(seq_book_id.nextval, '28년', '수업주의', '20-12-28', '2');
+
+--실행 전 문제없는지 test 2 :
+update book
+set title = '29년',
+    pubs = '비대면수업',
+    pub_date = '20-12-29',
+    author_id = '2'
+where book_id = 9;
